@@ -8,12 +8,12 @@ const Vomnibar = {
   // may be different from the current frame.
 
   activate(sourceFrameId, registryEntry) {
-    const options = Object.assign({}, registryEntry.options, { completer: "omni" });
+    const options = Object.assign({}, registryEntry.options, { completer: "omni", selectFirst: true });
     this.open(sourceFrameId, options);
   },
 
   activateInNewTab(sourceFrameId, registryEntry) {
-    const options = Object.assign({}, registryEntry.options, { completer: "omni", newTab: true });
+    const options = Object.assign({}, registryEntry.options, { completer: "omni", newTab: true, selectFirst: true });
     this.open(sourceFrameId, options);
   },
 
@@ -42,7 +42,7 @@ const Vomnibar = {
   activateEditUrl(sourceFrameId) {
     this.open(sourceFrameId, {
       completer: "omni",
-      selectFirst: false,
+      selectFirst: true,
       query: window.location.href,
     });
   },
@@ -50,7 +50,7 @@ const Vomnibar = {
   activateEditUrlInNewTab(sourceFrameId) {
     this.open(sourceFrameId, {
       completer: "omni",
-      selectFirst: false,
+      selectFirst: true,
       query: window.location.href,
       newTab: true,
     });
@@ -73,7 +73,7 @@ const Vomnibar = {
     // The Vomnibar cannot coexist with the help dialog (it causes focus issues).
     HelpDialog.abort();
     this.vomnibarUI.activate(
-      Object.assign(options, { name: "activate", sourceFrameId, focus: true }),
+      Object.assign(options, { name: "activate", sourceFrameId, focus: true, selectFirst: true }),
     );
   },
 };
