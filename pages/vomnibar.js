@@ -265,7 +265,7 @@ class VomnibarUI {
       }
     } else if ((action === "remove") && (0 <= this.selection)) {
       const completion = this.completions[this.selection];
-      console.log(completion);
+      this.removeTab(completion);
     }
 
     // It seems like we have to manually suppress the event here and still return true.
@@ -370,6 +370,14 @@ class VomnibarUI {
       chrome.runtime.sendMessage({ handler: "selectSpecificTab", id: completion.tabId });
     } else {
       this.launchUrl(completion.url, openInNewTab);
+    }
+  }
+
+  removeTab(completion) {
+    if (completion.description == "tab") {
+      chrome.runtime
+          .sendMessage({handler: "removeSpecificTab", id: completion.tabId})
+          .then(this.update);
     }
   }
 

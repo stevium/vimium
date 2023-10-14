@@ -135,6 +135,14 @@ const selectSpecificTab = (request) =>
     return chrome.tabs.update(request.id, { active: true });
   });
 
+//
+// Removes the tab with the ID specified in request.id
+//
+const removeSpecificTab = (request) =>
+    chrome.tabs.get(request.id, function (tab) {
+      return chrome.tabs.remove(request.id);
+    });
+
 const moveTab = function ({ count, tab, registryEntry }) {
   if (registryEntry.command === "moveTabLeft") {
     count = -count;
@@ -537,6 +545,7 @@ const sendRequestHandlers = {
 
   nextFrame: BackgroundCommands.nextFrame,
   selectSpecificTab,
+  removeSpecificTab,
   createMark: Marks.create.bind(Marks),
   gotoMark: Marks.goto.bind(Marks),
   // Send a message to all frames in the current tab. If request.frameId is provided, then send
